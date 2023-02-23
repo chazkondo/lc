@@ -85,8 +85,8 @@ var countVowelPermutationTD = function(n) {
 // so we have a cosistency. 
 
 
-// Top Down Reversed Staircase
-var countVowelPermutation = function(n) {
+// Top Down Reversed Staircase - AC
+var countVowelPermutationTDR = function(n) {
     
     const memo = {}
     function dfs(cl, ld) {
@@ -115,4 +115,81 @@ var countVowelPermutation = function(n) {
     return ans % (10 ** 9 + 7)
 };
 
+// Top Down Reversed Staircase Revised - AC
+var countVowelPermutation = function(n) {
+    
+    const memo = {}
+    function dfs(cl, ld) {
+        if (cl === 0) return 1
+        
+        const memostr = `${cl}, ${ld}`
+        if (memostr in memo) return memo[memostr]
+        
+        if (ld === 0) memo[memostr] = dfs(cl - 1, 1)
+        if (ld === 1) memo[memostr] = dfs(cl - 1, 0) + dfs(cl - 1, 2)
+        if (ld === 2) {
+            memo[memostr] = 0
+            for (let i = 0; i < 5; i++) 
+                if (i !== 2) memo[memostr] += dfs(cl - 1, i)
+        }
+        if (ld === 3) memo[memostr] = dfs(cl - 1, 2) + dfs(cl - 1, 4)
+        if (ld === 4) memo[memostr] = dfs(cl - 1, 0)
+        
+        return memo[memostr] % (10 ** 9 + 7)
+    }
+    
+    let ans = 0
+    for (let i = 0; i < 5; i++) {
+        ans += dfs(n - 1, i)
+    }
+    return ans % (10 ** 9 + 7)
+};
 
+
+
+// // Bottom Up DP, 
+// var countVowelPermutation = function(n) {
+    
+//     // it seems like a 2 dimensional dp based on my previous memostr
+//     // my base case for the dp will be when the current length is 1
+    
+//     // so in the first example, we have n = 1
+//     // it looks like we would have a loop that goes through
+//     // each of the five letters, and aggregates the amounts
+    
+//     // dp might look something like
+//     // [[1], [1], [1], [1], [1]]
+//     // this would sum up to 5
+    
+//     // in the second example, n = 2
+//     // and we should get an output of 10
+    
+//     // dp might be initialized to
+//     // [[1, 0], [1, 0], ]
+    
+//     const memo = {}
+//     function dfs(cl, ld) {
+//         if (cl === 1) return 1
+        
+//         const memostr = `${cl}, ${ld}`
+//         if (memostr in memo) return memo[memostr]
+        
+//         if (ld === 0) memo[memostr] = dfs(cl - 1, 1)
+//         if (ld === 1) memo[memostr] = dfs(cl - 1, 0) + dfs(cl - 1, 2)
+//         if (ld === 2) {
+//             memo[memostr] = 0
+//             for (let i = 0; i < 5; i++) 
+//                 if (i !== 2) memo[memostr] += dfs(cl - 1, i)
+//         }
+//         if (ld === 3) memo[memostr] = dfs(cl - 1, 2) + dfs(cl - 1, 4)
+//         if (ld === 4) memo[memostr] = dfs(cl - 1, 0)
+        
+//         return memo[memostr] % (10 ** 9 + 7)
+//     }
+    
+//     let ans = 0
+//     for (let i = 0; i < 5; i++) {
+//         ans += dfs(n, i)
+//     }
+//     return ans % (10 ** 9 + 7)
+// };
