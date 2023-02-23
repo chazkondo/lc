@@ -28,7 +28,7 @@ var countVowelPermutationBF = function(n) {
 };
 
 // Top Down - AC
-var countVowelPermutation = function(n) {
+var countVowelPermutationTD = function(n) {
     
     const memo = {}
     
@@ -84,5 +84,35 @@ var countVowelPermutation = function(n) {
 // The last caveat is to remmeber to modulo each memoized dfs return
 // so we have a cosistency. 
 
+
+// Top Down Reversed Staircase
+var countVowelPermutation = function(n) {
+    
+    const memo = {}
+    function dfs(cl, ld) {
+        if (cl === 1) return 1
+        
+        const memostr = `${cl}, ${ld}`
+        if (memostr in memo) return memo[memostr]
+        
+        if (ld === 0) memo[memostr] = dfs(cl - 1, 1)
+        if (ld === 1) memo[memostr] = dfs(cl - 1, 0) + dfs(cl - 1, 2)
+        if (ld === 2) {
+            memo[memostr] = 0
+            for (let i = 0; i < 5; i++) 
+                if (i !== 2) memo[memostr] += dfs(cl - 1, i)
+        }
+        if (ld === 3) memo[memostr] = dfs(cl - 1, 2) + dfs(cl - 1, 4)
+        if (ld === 4) memo[memostr] = dfs(cl - 1, 0)
+        
+        return memo[memostr] % (10 ** 9 + 7)
+    }
+    
+    let ans = 0
+    for (let i = 0; i < 5; i++) {
+        ans += dfs(n, i)
+    }
+    return ans % (10 ** 9 + 7)
+};
 
 
