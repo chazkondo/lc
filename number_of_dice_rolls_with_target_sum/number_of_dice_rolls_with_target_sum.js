@@ -10,6 +10,14 @@
 // now that I think about it, we are probably not adding up to
 // target because I am not keeping a running DP that changes when
 // the outer loop increments
+
+// to do:
+// create a dp that either has all levels of n
+// or update dp in a way that reflects the last sums
+
+// * may need to approach for a top down brute force to 
+// fully understand the complexity of the problem
+
 var numRollsToTarget = function(n, FACES, target) {
     if (n === 1) return target <= FACES ? 1 : 0 // base case
     
