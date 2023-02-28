@@ -50,5 +50,44 @@ var numRollsToTargetAttemptToDP = function(n, FACES, target) {
 var numRollsToTarget = function(n, FACES, target) {
     // try top down
     
-    
+    const memo = {}
+
+    function dfs(i, t) {
+        if (t < 0 || i >= n) return 0
+
+        const memostr = `${i}, ${t}`
+        if (memostr in memo) return memo[memostr]
+
+        memo[memostr] = 0
+        for (let k = 1; k < FACES + 1; k++) {
+            if (t - k === 0) {
+                memo[memostr] += 1
+            } else {
+                memo[memostr] += dfs(i + 1, t - k) % (10 ** 9 + 7)
+            }
+        }
+
+        return memo[memostr] % (10 ** 9 + 7)
+    }
+
+    return dfs(0, target)
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
