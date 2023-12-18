@@ -4,7 +4,7 @@
  */
 const memo = {}
 
-var climbStairs = function(n) {
+var climbStairsTD = function(n) {
     if (n in memo) {
         return memo[n]
     }
@@ -19,3 +19,15 @@ var climbStairs = function(n) {
         return memo[n]
     }
 };
+
+function climbStairs(n) {
+    if (!n) return 0
+    if (n === 1) return 1
+    let [a, b, t] = [1, 2, -1]
+    for (let i = 2; i < n; i++) {
+        t = b + a
+        a = b
+        b = t
+    }
+    return b
+}
